@@ -1,0 +1,20 @@
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+env/
+venv/
+ENV/
+.env/
+
+# Django
+*.sqlite3
+/media/
+media/
+staticfiles/
+static/
+# If you collectstatic to STATIC_ROOT:
+# /staticfiles/
