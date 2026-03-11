@@ -6,21 +6,25 @@
 <h1>Ranked Chocolatines</h1>
 
 {% for chocolatin in chocolatines %}
-<div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-    <h2>{{ chocolatin.name }} (Score: {{ chocolatin.score }})</h2>
-    <p><strong>Description:</strong> {{ chocolatin.description }}</p>
-    <p><strong>Published:</strong> {{ chocolatin.is_published|yesno:"Yes,No" }}</p>
+<a href="{% url 'ranked_detail' pk=chocolatin.pk %}" style="text-decoration: none; color: inherit;">
+    <div class="card" style="margin: 10px; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title">{{ chocolatin.name }} (Score: {{ chocolatin.score }})</h5>
+            <p class="card-text"><strong>Description:</strong> {{ chocolatin.description }}</p>
+            <p class="card-text"><strong>Published:</strong> {{ chocolatin.is_published|yesno:"Yes,No" }}</p>
 
-    {% if chocolatin.image_uncut %}
-    <p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-    {% endif %}
+            {% if chocolatin.image_uncut %}
+            <p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+            {% endif %}
 
-    {% if chocolatin.image_cut %}
-    <p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-    {% endif %}
+            {% if chocolatin.image_cut %}
+            <p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+            {% endif %}
 
-    <p><strong>Spot:</strong> {{ chocolatin.spot.name }}</p>
-</div>
+            <p class="card-text"><strong>Spot:</strong> {{ chocolatin.spot.name }}</p>
+        </div>
+    </div>
+</a>
 {% empty %}
 <p>No chocolatines available.</p>
 {% endfor %}

@@ -1,1 +1,28 @@
-<h1>Esto es un chocolatin</h1>
+<h1>{{chocolatin.name}}</h1>
+<p><strong>Description:</strong> {{chocolatin.description}}</p>
+<p><strong>Score:</strong> {{chocolatin.score}}</p>
+<p><strong>Published:</strong> {{chocolatin.is_published|yesno:"Yes,No"}}</p>
+
+{% if chocolatin.image_uncut %}
+<p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+{% endif %}
+
+{% if chocolatin.image_cut %}
+<p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+{% endif %}
+
+<h2>Rank</h2>
+<p><strong>M:</strong></p>
+<p>m1: {{rank.m1}}</p>
+<p>m2: {{rank.m2}}</p>
+<p>m3: {{rank.m3}}</p>
+
+<p><strong>C:</strong></p>
+<p>c1: {{rank.c1}}</p>
+<p>c2: {{rank.c2}}</p>
+
+<p><strong>O: </strong>{{rank.o}}</p>
+<p><strong>P: </strong>{{rank.p}}</p>
+<p><strong>R: </strong>{{rank.r}}</p>
+<p><strong>T: </strong>{{rank.t}}</p>
+
