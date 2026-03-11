@@ -6,27 +6,67 @@
 <h1>Ranked Chocolatines</h1>
 
 {% for chocolatin in chocolatines %}
-<a href="{% url 'ranked_detail' pk=chocolatin.pk %}" style="text-decoration: none; color: inherit;">
-    <div class="card" style="margin: 10px; cursor: pointer;">
-        <div class="card-body">
-            <h5 class="card-title">{{ chocolatin.name }} (Score: {{ chocolatin.score }})</h5>
-            <p class="card-text"><strong>Description:</strong> {{ chocolatin.description }}</p>
-            <p class="card-text"><strong>Published:</strong> {{ chocolatin.is_published|yesno:"Yes,No" }}</p>
+<div class="card chocolatin-card" style="margin: 10px; cursor: pointer;" data-url="{% url 'ranked_detail' pk=chocolatin.pk %}">
+    <div class="card-body">
+        <h5 class="card-title">{{ chocolatin.name }} (Score: {{ chocolatin.score }})</h5>
+        <p class="card-text"><strong>Description:</strong> {{ chocolatin.description }}</p>
+        <p class="card-text"><strong>Published:</strong> {{ chocolatin.is_published|yesno:"Yes,No" }}</p>
 
-            {% if chocolatin.image_uncut %}
-            <p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-            {% endif %}
+        {% if chocolatin.image_uncut %}
+        <p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+        {% endif %}
 
-            {% if chocolatin.image_cut %}
-            <p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-            {% endif %}
+        {% if chocolatin.image_cut %}
+        <p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
+        {% endif %}
 
-            <p class="card-text"><strong>Spot:</strong> {{ chocolatin.spot.name }}</p>
-        </div>
+        <p class="card-text"><strong>Spot:</strong> {{ chocolatin.spot.name }}</p>
     </div>
-</a>
+</div>
 {% empty %}
 <p>No chocolatines available.</p>
 {% endfor %}
+
+<!-- Modal -->
+<div class="modal fade" id="chocolatinModal" tabindex="-1" role="dialog" aria-labelledby="chocolatinModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chocolatinModalLabel">Chocolatin Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.chocolatin-card');
+    const modal = new bootstrap.Modal(document.getElementById('chocolatinModal'));
+    const modalBody = document.getElementById('modal-body');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            const url = this.getAttribute('data-url');
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    modalBody.innerHTML = data;
+                    modal.show();
+                })
+                .catch(error => {
+                    console.error('Error loading details:', error);
+                    modalBody.innerHTML = '<p>Error loading details.</p>';
+                    modal.show();
+                });
+        });
+    });
+});
+</script>
 
 {% endblock %}
