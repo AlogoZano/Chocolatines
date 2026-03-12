@@ -9,7 +9,7 @@ urlpatterns = [
     path('ranked/<int:pk>/', views.ranked_detail, name='ranked_detail'),
 
     path('spots/', views.spots_list, name='spots'),
-    path('spots/<int:pk>/', views.spot_detail, name='spots_detail'),
+    path('spots/<int:pk>/', views.spot_detail, name='spot_detail'),
 
     path('about/', views.about, name='about'),
     path('contribute/', views.contribute, name='contribute'),
