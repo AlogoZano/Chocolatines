@@ -6,6 +6,8 @@ class Spot(models.Model):
     description = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
     location_url = models.URLField(blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     image = models.ImageField(upload_to='spots/images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

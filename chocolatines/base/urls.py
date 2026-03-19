@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('spots/', views.spots_list, name='spots'),
     path('spots/<int:pk>/', views.spot_detail, name='spot_detail'),
+    path('map/', views.spots_map, name='spots_map'),
 
     path('about/', views.about, name='about'),
     path('contribute/', views.contribute, name='contribute'),
