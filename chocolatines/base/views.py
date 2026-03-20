@@ -21,7 +21,17 @@ def spots_list(request):
 
 def spot_detail(request, pk):
     spot = Spot.objects.get(pk=pk)
-    return render(request, 'spots/spot_detail.html', {'spot': spot})
+    spot_json = {
+        "id": spot.id,
+        "name": spot.name,
+        "latitude": spot.latitude,
+        "longitude": spot.longitude,
+    }
+    return render(request, 'spots/spot_detail.html', {
+        'spot': spot, 
+        'spot_json': json.dumps(spot_json), 
+        "GOOGLE_MAPS_API_KEY": settings.GOOGLE_MAPS_API_KEY,
+    })
 
 def about(request):
     return render(request, 'about.html')

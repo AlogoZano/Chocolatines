@@ -1,11 +1,50 @@
+{% block content %}
 <h1>{{spot.name}}</h1>
 <p><strong>Description:</strong> {{spot.description}}</p>
-<p><strong>Score:</strong> {{spot.score}}</p>
-<p><strong>Published:</strong> {{spot.is_published|yesno:"Yes,No"}}</p>
 
 {% if spot.image %}
 <p><strong>Image:</strong><br><img src="{{ spot.image.url }}" alt="Image of {{ spot.name }}" style="max-width: 200px;"></p>
 {% endif %}
 
+<div id="map" style="height: 500px; width: 100%;"></div>
 
+<script>
+console.log("Initializing map for spot:");
+function initMap() {
+    console.log("ola");
+    const spot = JSON.parse('{{ spot_json|escapejs }}');
+
+    const center = {
+        lat: spot.latitude || 19.4326,
+        lng: spot.longitude || -99.1332
+    };
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: center,
+    });
+
+    if (spot.latitude !== null && spot.longitude !== null) {
+        const marker = new google.maps.Marker({
+            position: { lat: spot.latitude, lng: spot.longitude },
+            map: map,
+            title: spot.name,
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+            content: `<a href="/spots/${spot.id}/">${spot.name}</a>`
+        });
+
+        marker.addListener("click", () => {
+            infowindow.open(map, marker);
+        });
+    }
+}
+</script>
+
+<script async
+src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+</script>
+
+{% endblock %}
 
