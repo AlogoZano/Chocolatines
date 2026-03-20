@@ -52,6 +52,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.text())
                 .then(data => {
                     modalBody.innerHTML = data;
+
+                    // evaluate scripts in loaded content (so initMap from spot_detail is executed)
+                    modalBody.querySelectorAll('script').forEach(oldScript => {
+                        // avoid double-loading Google Maps API in modal-insert flow
+                        if (oldScript.src && oldScript.src.includes('maps.googleapis.com/maps/api/js')) {
+                            oldScript.remove();
+                            return;
+                        }
+
+                        const newScript = document.createElement('script');
+                        if (oldScript.src) {
+                            newScript.src = oldScript.src;
+                            newScript.async = false;
+                        } else {
+                            newScript.textContent = oldScript.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                        oldScript.remove();
+                    });
+
+                    // if initMap function is available globally, call it (for callback-less, fallback use)
+                    if (typeof window.initMap === 'function' && window.google && window.google.maps) {
+                        window.initMap();
+                    }
+
                     modal.show();
                 })
                 .catch(error => {
@@ -72,4 +97,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+
 {% endblock %}

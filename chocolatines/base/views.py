@@ -17,7 +17,10 @@ def ranked_detail(request, pk):
 
 def spots_list(request):
     spots = Spot.objects.all()
-    return render(request, 'spots/spots_list.html', {'spots': spots})
+    return render(request, 'spots/spots_list.html', {
+        'spots': spots,
+        "GOOGLE_MAPS_API_KEY": settings.GOOGLE_MAPS_API_KEY,
+    })
 
 def spot_detail(request, pk):
     spot = Spot.objects.get(pk=pk)
