@@ -3,29 +3,64 @@
 {% block title %}Ranked Chocolatines{% endblock %}
 
 {% block content %}
+<style>
+  .chocolatin-card {
+    background-color: #F5F5F5;
+    border: 1px solid #D4A373;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+  }
+  .chocolatin-card:hover {
+    background-color: #D4A373;
+    color: #3B2F2F;
+    transform: translateY(-5px);
+  }
+  .image-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .image-row img {
+    width: 48%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  h1 {
+    color: #3B2F2F;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+</style>
 <h1>Ranked Chocolatines</h1>
 
+<div class="row">
 {% for chocolatin in chocolatines %}
-<div class="card chocolatin-card" style="margin: 10px; cursor: pointer;" data-url="{% url 'ranked_detail' pk=chocolatin.pk %}">
+<div class="col-md-6">
+<div class="card chocolatin-card" style="cursor: pointer;" data-url="{% url 'ranked_detail' pk=chocolatin.pk %}">
     <div class="card-body">
-        <h5 class="card-title">{{ chocolatin.name }} (Score: {{ chocolatin.score }})</h5>
-        <p class="card-text"><strong>Description:</strong> {{ chocolatin.description }}</p>
-        <p class="card-text"><strong>Published:</strong> {{ chocolatin.is_published|yesno:"Yes,No" }}</p>
-
-        {% if chocolatin.image_uncut %}
-        <p><strong>Uncut Image:</strong><br><img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-        {% endif %}
-
-        {% if chocolatin.image_cut %}
-        <p><strong>Cut Image:</strong><br><img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}" style="max-width: 200px;"></p>
-        {% endif %}
-
+        <h5 class="card-title">{{ chocolatin.name }}</h5>
+        <p class="card-text"><strong>Score:</strong> {{ chocolatin.score }}</p>
         <p class="card-text"><strong>Spot:</strong> {{ chocolatin.spot.name }}</p>
+
+        {% if chocolatin.image_uncut or chocolatin.image_cut %}
+        <div class="image-row">
+            {% if chocolatin.image_uncut %}
+            <img src="{{ chocolatin.image_uncut.url }}" alt="Uncut {{ chocolatin.name }}">
+            {% endif %}
+            {% if chocolatin.image_cut %}
+            <img src="{{ chocolatin.image_cut.url }}" alt="Cut {{ chocolatin.name }}">
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
+</div>
 </div>
 {% empty %}
 <p>No chocolatines available.</p>
 {% endfor %}
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="chocolatinModal" tabindex="-1" role="dialog" aria-labelledby="chocolatinModalLabel" aria-hidden="true">
