@@ -19,6 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+MAP_ID = os.getenv("MAP_ID")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/

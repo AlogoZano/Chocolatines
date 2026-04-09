@@ -34,6 +34,7 @@ def spot_detail(request, pk):
         'spot': spot, 
         'spot_json': json.dumps(spot_json), 
         "GOOGLE_MAPS_API_KEY": settings.GOOGLE_MAPS_API_KEY,
+        "MAP_ID": settings.MAP_ID,
     })
 
 def about(request):

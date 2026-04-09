@@ -18,23 +18,46 @@ function initMap() {
         lng: spot.longitude || -99.1332
     };
 
-    const map = new google.maps.Map(document.getElementById("map"), {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) {
+        console.error('map container not found');
+        return;
+    }
+
+    const map = new google.maps.Map(mapContainer, {
         zoom: 12,
         center: center,
+        mapId: '{{ MAP_ID }}'
     });
 
     if (spot.latitude !== null && spot.longitude !== null) {
-        const marker = new google.maps.Marker({
+    
+        const content = document.createElement("div");
+        content.className = "advanced-marker";
+        content.style.background = 'rgba(255,255,255,0.9)';
+        content.style.border = '1px solid #333';
+        content.style.borderRadius = '8px';
+        content.style.padding = '4px 8px';
+        content.style.fontWeight = 'bold';
+        content.style.fontSize = '12px';
+        content.style.color = '#000';
+
+        const label = document.createElement("span");
+        label.textContent = spot.name;
+        content.appendChild(label);
+
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+            map,
             position: { lat: spot.latitude, lng: spot.longitude },
-            map: map,
             title: spot.name,
+            content: content
         });
 
         const infowindow = new google.maps.InfoWindow({
             content: `<a href="/spots/${spot.id}/">${spot.name}</a>`
         });
 
-        marker.addListener("click", () => {
+        marker.addEventListener("gmp-click", () => {
             infowindow.open(map, marker);
         });
     }
@@ -42,9 +65,6 @@ function initMap() {
 window.initMap = initMap;
 </script>
 
-<!-- <script async
-src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
-</script> -->
 
 {% endblock %}
 
