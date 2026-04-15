@@ -3,24 +3,60 @@
 {% block title %}Spots{% endblock %}
 
 {% block content %}
+<style>
+  .spot-card {
+    background-color: #F5F5F5;
+    border: 1px solid #D4A373;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+  }
+  .spot-card:hover {
+    background-color: #D4A373;
+    color: #3B2F2F;
+    transform: translateY(-5px);
+  }
+  .image-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .image-row img {
+    width: 100%;
+    max-width: none;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  h1 {
+    color: #3B2F2F;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+</style>
 <h1>Spots</h1>
 
+<div class="row">
 {% for spot in spots %}
+<div class="col-md-6">
 <div class="card spot-card" style="margin: 10px; cursor: pointer;" data-url="{% url 'spot_detail' pk=spot.pk %}">
     <div class="card-body">
         <h5 class="card-title">{{ spot.name }}</h5>
-        <p class="card-text"><strong>Description:</strong> {{ spot.description }}</p>
         <p class="card-text"><strong>Location:</strong> {{ spot.location }}</p>
         <p class="card-text"><strong>URL:</strong> <a href="{{ spot.location_url }}" target="_blank">{{ spot.location_url }}</a></p>
 
         {% if spot.image %}
-        <p><strong>Image:</strong><br><img src="{{ spot.image.url }}" alt="{{ spot.name }}" style="max-width: 200px;"></p>
+        <div class="image-row">
+        <br><img src="{{ spot.image.url }}" alt="{{ spot.name }}" style="max-width: 200px;">
+        </div>
         {% endif %}
     </div>
+</div>
 </div>
 {% empty %}
 <p>No spots available.</p>
 {% endfor %}
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="spotModalLabel" aria-hidden="true">

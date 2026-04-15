@@ -12,17 +12,53 @@
 {% endif %}
 
 <h2>Rank</h2>
-<p><strong>M:</strong></p>
-<p>m1: {{rank.m1}}</p>
-<p>m2: {{rank.m2}}</p>
-<p>m3: {{rank.m3}}</p>
+<style>
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.rank-label {
+  min-width: 3.5rem;
+  font-weight: 700;
+}
+.rank-meter {
+  width: 100%;
+  max-width: 30rem;
+  height: 1rem;
+  appearance: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.rank-meter::-webkit-meter-bar {
+  background: #e9e2d0;
+  border-radius: 0.5rem;
+}
+.rank-meter::-webkit-meter-optimum-value {
+  background: #3B2F2F;
+  border-radius: 0.5rem;
+}
+.rank-meter::-moz-meter-bar {
+  background: #3B2F2F;
+  border-radius: 0.5rem;
+}
+.rank-value {
+  min-width: 3rem;
+  text-align: right;
+}
+</style>
 
-<p><strong>C:</strong></p>
-<p>c1: {{rank.c1}}</p>
-<p>c2: {{rank.c2}}</p>
+<div class="rank-row"><span class="rank-label">m1</span><meter class="rank-meter" value="{{ rank.m1 }}" min="0" max="10"></meter><span class="rank-value">{{ rank.m1|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">m2</span><meter class="rank-meter" value="{{ rank.m2 }}" min="0" max="10"></meter><span class="rank-value">{{ rank.m2|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">m3</span><meter class="rank-meter" value="{{ rank.m3 }}" min="0" max="10"></meter><span class="rank-value">{{ rank.m3|floatformat:1 }}</span></div>
 
-<p><strong>O: </strong>{{rank.o}}</p>
-<p><strong>P: </strong>{{rank.p}}</p>
-<p><strong>R: </strong>{{rank.r}}</p>
-<p><strong>T: </strong>{{rank.t}}</p>
+<div class="rank-row"><span class="rank-label">c1</span><meter class="rank-meter" value="{{ rank.c1 }}" min="0" max="10"></meter><span class="rank-value">{{ rank.c1|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">c2</span><meter class="rank-meter" value="{{ rank.c2 }}" min="0" max="10"></meter><span class="rank-value">{{ rank.c2|floatformat:1 }}</span></div>
+
+<div class="rank-row"><span class="rank-label">O</span><meter class="rank-meter" value="{{ rank.o }}" min="0" max="10"></meter><span class="rank-value">{{ rank.o|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">P</span><meter class="rank-meter" value="{{ rank.p }}" min="0" max="10"></meter><span class="rank-value">{{ rank.p|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">R</span><meter class="rank-meter" value="{{ rank.r }}" min="0" max="10"></meter><span class="rank-value">{{ rank.r|floatformat:1 }}</span></div>
+<div class="rank-row"><span class="rank-label">T</span><meter class="rank-meter" value="{{ rank.t }}" min="0" max="10"></meter><span class="rank-value">{{ rank.t|floatformat:1 }}</span></div>
 
