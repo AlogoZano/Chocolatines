@@ -34,9 +34,146 @@
         <div class="row mt-4">
             <div class="col-12">
                 <h2>¿Qué compone al chocolatín perfecto?</h2>
-                
+                <p>Cada uno de los rubros se evalúa del 1 al 10:</p>
+                <div class="ingredient-grid row gy-3 mt-3">
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Masa" data-description="Masa: la base suave y esponjosa que sostiene todos los sabores del chocolatín.">
+                            <div class="ingredient-letter">M</div>
+                            <div class="ingredient-title">Masa</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Chocolate" data-description="Chocolate: el ingrediente principal que aporta sabor y textura al chocolatín.">
+                            <div class="ingredient-letter">C</div>
+                            <div class="ingredient-title">Chocolate</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Precio" data-description="El valor del chocolatín en relación con su calidad y características. Se evalúa considerando el costo de compra de un chocolatín promedio en el mercado con un día del salario mínimo. Fórmula ejemplo: \(P = \frac{S}{p} + 1\).">
+                            <div class="ingredient-letter">P</div>
+                            <div class="ingredient-title">Precio</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Olor" data-description="Olor: la fragancia que aporta al chocolatín.">
+                            <div class="ingredient-letter">O</div>
+                            <div class="ingredient-title">Olor</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Razón masa-chocolate" data-description="Razón masa-chocolate: la proporción entre la masa y el chocolate en el chocolatín. Fórmula: \(R = \frac{M}{C}\).">
+                            <div class="ingredient-letter">R</div>
+                            <div class="ingredient-title">Razón masa-chocolate</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card ingredient-card" role="button" tabindex="0" data-ingredient="Tamaño" data-description="Tamaño: el tamaño del chocolatín.">
+                            <div class="ingredient-letter">T</div>
+                            <div class="ingredient-title">Tamaño</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Ingredient Modal -->
+<div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ingredientModalLabel">Ingrediente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="ingredient-modal-body">
+                <p>Selecciona un ingrediente para ver más detalles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.ingredient-card');
+    const modalElement = document.getElementById('ingredientModal');
+    const modal = new bootstrap.Modal(modalElement);
+    const modalTitle = document.getElementById('ingredientModalLabel');
+    const modalBody = document.getElementById('ingredient-modal-body');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            const ingredientName = this.dataset.ingredient || 'Ingrediente';
+            const description = this.dataset.description || 'Descripción no disponible.';
+
+            modalTitle.textContent = ingredientName;
+            modalBody.innerHTML = `<p class="mb-0">${description}</p>`;
+
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([modalBody]).catch(err => console.error(err.message));
+            }
+
+            modal.show();
+        });
+    });
+
+    modalElement.addEventListener('hide.bs.modal', function(event) {
+        if (document.activeElement && event.target.contains(document.activeElement)) {
+            document.activeElement.blur();
+        }
+    });
+});
+</script>
+
+<style>
+.ingredient-grid {
+    width: 100%;
+}
+
+.ingredient-card {
+    background-color: #F9F2E9;
+    border: 1px solid #D4A373;
+    border-radius: 24px;
+    min-height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px 16px;
+    color: #3B2F2F;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.ingredient-card:hover,
+.ingredient-card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(93, 63, 30, 0.18);
+    background-color: #F1E2C7;
+    outline: none;
+}
+
+.ingredient-letter {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.ingredient-title {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+@media (max-width: 576px) {
+    .ingredient-card {
+        min-height: 150px;
+        padding: 20px 12px;
+    }
+}
+</style>
 {% endblock %}
